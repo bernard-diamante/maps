@@ -98,9 +98,9 @@ class CreateMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             }
             val userMap = title?.let { UserMap(it, places) }
-            val data = Intent()
-            data.putExtra(EXTRA_USER_MAP, userMap)
-            setResult(Activity.RESULT_OK, data)
+            val result = Intent()
+            result.putExtra(EXTRA_USER_MAP, userMap)
+            setResult(Activity.RESULT_OK, result)
             finish()
             return true
         }
