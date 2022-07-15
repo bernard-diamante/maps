@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 // If the launched activity finishes, take the data passed in then save new object.
                 if (it.resultCode == Activity.RESULT_OK) {
                     val userMap = it.data?.getSerializableExtra(EXTRA_USER_MAP) as UserMap
-                    Log.i(TAG, "onActivityResult with new map title ${userMap.title}")
+                    Log.i(TAG, "registerForActivityResult with new map title ${userMap.title}")
                     userMaps.add(userMap)
                     mapAdapter.notifyItemInserted(userMaps.size - 1)
                     serializeUserMaps(this, userMaps)
