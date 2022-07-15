@@ -25,11 +25,13 @@ class MapsAdapter(
         }
     }
 
+    // Creates a new view - EXPENSIVE
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_user_map, parent, false)
         return ViewHolder(view)
     }
 
+    // Bind the data at position into the ViewHolder - INEXPENSIVE
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val userMap = userMaps[position]
         // Notify MainActivity when a view is clicked
