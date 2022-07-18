@@ -121,9 +121,9 @@ class CreateMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         // Move camera to current location
-        val lat = intent.getDoubleExtra("latitude", 0.0)
-        val long = intent.getDoubleExtra("longitude", 0.0)
-        val camLocation = LatLng(lat, long)
+
+        val currentLocation = intent.getParcelableExtra<LatLng>("currentLocation") as LatLng
+        val camLocation = LatLng(currentLocation.latitude, currentLocation.longitude)
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(camLocation, 18f))
     }
@@ -155,7 +155,7 @@ class CreateMapActivity : AppCompatActivity(), OnMapReadyCallback {
                     .position(latLng)
                     .title(title)
                     .snippet(description)
-            )
+            ) as Marker
             markers.add(marker)
             dialog.dismiss()
         }

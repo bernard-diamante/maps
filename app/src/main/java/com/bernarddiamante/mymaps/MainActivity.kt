@@ -24,8 +24,8 @@ import com.bernarddiamante.mymaps.models.Place
 import com.bernarddiamante.mymaps.models.UserMap
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import java.io.*
-import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,10 +55,9 @@ class MainActivity : AppCompatActivity() {
         userMaps = deserializeUserMaps(this).toMutableList()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        // Launching the activity
+        // If the launched activity finishes, take the data passed in then save new object.
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                // If the launched activity finishes, take the data passed in then save new object.
                 if (it.resultCode == Activity.RESULT_OK) {
                     val userMap = it.data?.getSerializableExtra(EXTRA_USER_MAP) as UserMap
                     Log.i(TAG, "registerForActivityResult with new map title: ${userMap.title}")
@@ -187,17 +186,13 @@ class MainActivity : AppCompatActivity() {
             if (isLocationEnabled()) {
                 fusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
                     Log.i(TAG, "Check if task is null: ${task.result}")
-                    val currentLocation = task.result
+                    val result = task.result
                     Log.i(TAG, "getLocation() - addOnCompleteListener()")
-                    if (currentLocation != null) {
-                        val lat = currentLocation.latitude
-                        val long = currentLocation.longitude
-                        Log.i(TAG, "$lat, $long")
-
+                    if (result != null) {
+                        val currentLocation = LatLng(result.latitude, result.longitude)
                         val intent = Intent(this@MainActivity, CreateMapActivity::class.java)
                         intent.putExtra(EXTRA_MAP_TITLE, title)
-                        intent.putExtra("longitude", long)
-                        intent.putExtra("latitude", lat)
+                        intent.putExtra("currentLocation", currentLocation)
                         resultLauncher.launch(intent)
                     }
                 }
